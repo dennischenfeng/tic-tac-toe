@@ -99,13 +99,16 @@ class UserInterface:
 
         :return: None
         """
-        print("Starting a game of tic-tac-toe. ")
+        print("Starting a game of tic-tac-toe.")
         print(
             "Two players will play this game. At each turn, play a move (for the specified player) by inputting row "
             "and column separated by a comma, like '1,0'. If input is invalid, it will ask you to try again. When you "
             "play a valid move, it will display the resultant board. When game ends, it will display the end-game "
             "status."
         )
+        print("Starting board: ")
+        self.print_visual_board()
+
         while True:
             input_string = input(f"Please input your move (player {self.engine.active_player}): ")
             split = input_string.split(",")
@@ -132,9 +135,7 @@ class UserInterface:
                 print(invalid_input_message)
                 continue
 
-            visual_board = self.engine.visual_board()
-            for row_values in visual_board:
-                print(row_values)
+            self.print_visual_board()
 
             status = self.engine.compute_game_status()
             if status in [1, 2]:
@@ -143,6 +144,16 @@ class UserInterface:
             elif status == 3:
                 print(f"The game ends in a draw!")
                 break
+
+    def print_visual_board(self) -> None:
+        """
+        Prints the visual board, as a 3x3 grid.
+
+        :return: None
+        """
+        visual_board = self.engine.visual_board()
+        for row_values in visual_board:
+            print(row_values)
 
 
 if __name__ == "__main__":

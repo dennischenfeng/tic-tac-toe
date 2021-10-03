@@ -95,3 +95,5 @@ def test_compute_game_status_draw(engine):
     engine.play_move(2, 1)
     assert engine.compute_game_status() == 3
 
+
+# TODO: test UserInterface

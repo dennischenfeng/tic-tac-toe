@@ -47,6 +47,8 @@ class Engine:
     def visual_board(self) -> List[List[str]]:
         """
         Return board with visual symbols (X, O, spaces)
+
+        :return: board (list of lists) with visual symbols
         """
         displayed_board = []
         for row_of_values in self.board:
@@ -146,6 +148,3 @@ class UserInterface:
 if __name__ == "__main__":
     ui = UserInterface()
     ui.start_game()
-
-
-

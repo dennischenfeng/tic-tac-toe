@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "tic-tac-toe"
+version = "0.1.0"
+description = ""
+authors = ["dennis <dennisfeng2@gmail.com>"]
+readme = "README.md"
+packages = [{include = "tic_tac_toe"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

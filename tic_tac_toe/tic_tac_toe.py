@@ -2,7 +2,8 @@
 Simple tic tac toe game, playable by 2 human players. Only includes basic functionality.
 """
 
-from typing import List
+from typing import List, Tuple
+import random
 
 # a winning chain is a chain of positions (e.g. 3 in a row) which constitutes a winning condition.
 WINNING_CHAINS = (
@@ -87,8 +88,17 @@ class UserInterface:
     User interface, which handles user inputs, and displaying game progression to user
     """
 
-    def __init__(self):
+    def __init__(self, use_ai: bool = False, ai_level: int = 0):
+        """
+
+        :param use_ai:
+        :param ai_level: only used if use_ai is True
+        """
         self.engine = Engine()
+
+        self.ai = None
+        if use_ai:
+            self.ai = AI(ai_level)
 
     def start_game(self) -> None:
         """
@@ -110,7 +120,12 @@ class UserInterface:
         self.print_visual_board()
 
         while True:
-            input_string = input(f"Please input your move (player {self.engine.active_player}): ")
+            if self.engine.active_player == 1:
+                input_string = input(f"Please input your move (player {self.engine.active_player}): ")
+            else:
+                row, col = self.ai.suggest_move(self.engine.board)
+                input_string = f"{row},{col}"
+
             split = input_string.split(",")
 
             invalid_input_message = (
@@ -156,6 +171,40 @@ class UserInterface:
             print(row_values)
 
 
+class AI:
+    def __init__(self, level: int = 0):
+        self.level = level
+
+    def suggest_move(self, board: List[List[str]]) -> Tuple[int, int]:
+        """
+        Return suggest move (row, col) given a board
+
+        :param board:
+        :return:
+        """
+        num_rows = len(board)
+        num_cols = len(board[0])
+        if self.level == 0:
+            for row in range(num_rows):
+                for col in range(num_cols):
+                    if board[row][col] == 0:
+                        return row, col
+
+            return -1, -1
+        elif self.level == 1:
+            possible_positions = []
+            for row in range(num_rows):
+                for col in range(num_cols):
+                    if board[row][col] == 0:
+                        possible_positions.append([row, col])
+
+            if len(possible_positions) != 0:
+                row, col = random.choice(possible_positions)
+                return row, col
+            else:
+                return -1, -1
+
+
 if __name__ == "__main__":
-    ui = UserInterface()
+    ui = UserInterface(use_ai=True, ai_level=1)
     ui.start_game()
